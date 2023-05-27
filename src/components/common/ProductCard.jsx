@@ -2,9 +2,11 @@ import React from "react";
 
 const ProductCard = ({ name, description, price, imageUrl }) => {
   return (
-    <div className="max-w-xs rounded overflow-hidden shadow-lg bg-white">
+    <div className="max-w-xs rounded overflow-hidden shadow-lg">
       {/* <img className="w-full" src={imageUrl} alt={name} /> */}
-      <img className="w-full bg-secondary/30" src="" alt="product image" />
+      <div className="h-36 bg-black/10">
+        <img className="w-full" src="" alt="product image" />
+      </div>
 
       <div className="px-6 py-4">
         {/* <div className="font-bold text-xl mb-2">{name}</div> */}
