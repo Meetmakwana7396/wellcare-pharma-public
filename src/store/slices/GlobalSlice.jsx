@@ -1,27 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { URL } from "../../../baseurl";
 
 const initialState = {
-  status: "none",
   cart: null,
-  cart_count: 0,
+  cart_count: "",
+  products: null,
 };
 
 const globalSlice = createSlice({
-  name: "user",
+  name: "global",
   initialState: initialState, // We have Declared Empty Array as initial State
   reducers: {
-    addUser(state, action) {
-      state.push(action.payload); //puses data into array(initialState: [])
+    addProducts(state, action) {
+      state.products = action.payload; //puses data into array(initialState: [])
     },
-    removeUser(state, action) {
-      state.splice(action.payload, 1); //Removes Single Element From Array
+
+    setCart(state, payload) {
+      state.cart = payload.payload;
     },
-    removeAllUser(state, action) {
-      return []; // Empty The Whole Array
+
+    setCartCount(state, payload) {
+      state.cart_count = payload.payload;
     },
   },
 });
-console.log(userSlice.actions);
+
+export const getCartList = () => {
+  return async (dispatch) => {
+    axios({
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("user_token")}`,
+      },
+      url: `${URL}customers/get-cart`,
+    })
+      .then((response) => {
+        let cartData = response.data.data;
+        dispatch(setCart(cartData));
+        dispatch(setCartCount(cartData.length));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
 
 export default globalSlice.reducer;
-export const { addUser, removeAllUser, removeUser } = globalSlice.actions;
+export const { addProducts, setCart, setCartCount } = globalSlice.actions;

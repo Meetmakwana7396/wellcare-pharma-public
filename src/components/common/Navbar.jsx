@@ -1,32 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { BiCartAlt } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { BiCart } from "react-icons/bi";
+import { getCartList } from "../../store/slices/GlobalSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const { cart_count } = useSelector((state) => state.global);
+  const dispatch = useDispatch();
 
   const handleMenuVisibility = () => {
     setShowMenu(!showMenu);
   };
-
   useEffect(() => {
+    if (localStorage.getItem("user_token")) {
+      dispatch(getCartList());
+    }
     document.addEventListener("click", (e) => {
       e.target.id !== "avatarButton" ? setShowMenu(false) : "";
     });
-
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 0;
-      setScrolled(isScrolled);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
   return (
@@ -34,16 +27,25 @@ const Navbar = () => {
       className={`navbar px-8 py-4 grid grid-cols-3 gap-4 z-50 sticky top-0 bg-white shadow-md`}
     >
       <div className="flex justify-start items-center">
-        <h1 className="text-lg font-semibold">Wellcare Pharma</h1>
+        <Link to="/" className="text-lg font-semibold">
+          Wellcare Pharma
+        </Link>
       </div>
       <div className="col-span-2 flex justify-end">
         <Link
           to="/orders"
-          className={`flex items-center p-2 rounded-lg text-white hover:bg-white/10`}
+          className={`flex items-center mx-3 rounded-lg text-black`}
         >
-          <BiCart className="text-[25px]" />
-          <span className="flex-1 ml-3 whitespace-nowrap">Orders</span>
+          <div className="relative">
+            <BiCartAlt size={27} className="text-black" />
+            {cart_count && (
+              <span className="absolute top-[3px] right-1 inline-flex items-center justify-center px-[5px] py-[3px] text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-danger/90 rounded-full">
+                {cart_count}
+              </span>
+            )}
+          </div>
         </Link>
+
         <img
           id="avatarButton"
           type="button"
@@ -54,7 +56,6 @@ const Navbar = () => {
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXFBOfk-8mYVPpg23ixdQ8WfID6Jy23Kw_aTy-NcZmhA&s"
           alt="User dropdown"
         />
-
         {/* <!-- Dropdown menu --> */}
         <div
           id="userDropdown"
@@ -84,11 +85,13 @@ const Navbar = () => {
               href="#"
               className="block px-4 py-2 text-sm hover:bg-black/10 "
               onClick={() => {
-                localStorage.removeItem("user_token");
+                if (localStorage.removeItem("user_token")) {
+                  localStorage.removeItem("user_token");
+                }
                 navigate("/login");
               }}
             >
-              Sign out
+              {localStorage.getItem("user_token") ? "Sign out" : "User Login"}
             </a>
           </div>
         </div>

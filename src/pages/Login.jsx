@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { URL } from "../../baseurl";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/common/Loader";
+import { toast } from "react-hot-toast";
 
 const defaultParams = {
   email: "",
@@ -42,7 +44,6 @@ const LoginForm = () => {
           setIsLoading(false);
           toast.error(error.response.data.message);
         });
-      setIsLoading(false);
     }
   };
 
@@ -112,7 +113,7 @@ const LoginForm = () => {
           type="submit"
           className="bg-success/80 w-full hover:bg-success font-semibold text-white px-4 py-2 rounded"
         >
-          Login
+          {isLoading ? <Loader /> : "Login"}
         </button>
       </form>
     </div>

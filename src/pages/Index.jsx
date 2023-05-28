@@ -8,6 +8,9 @@ import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper";
 import { URL } from "../../baseurl";
 import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addProducts } from "../store/slices/GlobalSlice";
+import { Link } from "react-router-dom";
 
 const CustomButton = ({ onClick, children }) => (
   <button
@@ -21,16 +24,17 @@ const CustomButton = ({ onClick, children }) => (
 );
 
 const Index = () => {
+  const dispatch = useDispatch();
   const [productList, setProductsList] = useState([]);
 
   const getProductsList = () => {
     axios({
       method: "get",
-      url: `${URL}customers/get-medicin-list`,
+      url: `${URL}medicins/get-medicin-list`,
     })
       .then((response) => {
-        console.log(response.data.data);
         setProductsList(response.data.data);
+        dispatch(addProducts(response.data.data));
       })
       .catch((error) => {
         toast.error(error.response.data.message);
@@ -107,8 +111,12 @@ const Index = () => {
             <CustomButton onClick={handleNext}>&gt;</CustomButton>
           </div>
         </Swiper>
-        <div className="grid grid-cols-4 gap-8 p-4">
-          <ProductCard />
+        <div className="grid grid-cols-4 gap-8 py-8">
+          {productList.map((product) => (
+            <div key={product.id}>
+              <ProductCard data={product} />
+            </div>
+          ))}
         </div>
       </div>
     </Main>
