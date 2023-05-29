@@ -32,19 +32,21 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="col-span-2 flex justify-end">
-        <Link
-          to="/orders"
-          className={`flex items-center mx-3 rounded-lg text-black`}
-        >
-          <div className="relative">
-            <BiCartAlt size={27} className="text-black" />
-            {cart_count && (
-              <span className="absolute top-[3px] right-1 inline-flex items-center justify-center px-[5px] py-[3px] text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-danger/90 rounded-full">
-                {cart_count}
-              </span>
-            )}
-          </div>
-        </Link>
+        {localStorage.getItem("user_token") && (
+          <Link
+            to="/cart"
+            className={`flex items-center mx-3 rounded-lg text-black`}
+          >
+            <div className="relative">
+              <BiCartAlt size={27} className="text-black" />
+              {cart_count && (
+                <span className="absolute top-[3px] right-1 inline-flex items-center justify-center px-[5px] py-[3px] text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-danger/90 rounded-full">
+                  {cart_count}
+                </span>
+              )}
+            </div>
+          </Link>
+        )}
 
         <img
           id="avatarButton"
@@ -68,16 +70,6 @@ const Navbar = () => {
               <Link to="/profile" className="block px-4 py-2 hover:bg-black/10">
                 Profile
               </Link>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-black/10">
-                Settings
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-black/10">
-                Earnings
-              </a>
             </li>
           </ul>
           <div className="py-1">

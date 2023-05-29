@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
 import { URL } from "../../../baseurl";
 
 const initialState = {
@@ -39,8 +37,13 @@ export const getCartList = () => {
     })
       .then((response) => {
         let cartData = response.data.data;
+        let totalQuantity = cartData.reduce(
+          (totalQuantity, cartItem) => totalQuantity + cartItem.quantity_unit,
+          0
+        );
+
         dispatch(setCart(cartData));
-        dispatch(setCartCount(cartData.length));
+        dispatch(setCartCount(totalQuantity));
       })
       .catch((error) => {
         console.log(error);

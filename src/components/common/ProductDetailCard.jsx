@@ -2,11 +2,12 @@ import axios from "axios";
 import React from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { auth_code, toIndianCurrency, URL } from "../../../baseurl";
+import { useNavigate } from "react-router-dom";
+import { auth_code, formatDate, toIndianCurrency, URL } from "../../../baseurl";
 import { getCartList } from "../../store/slices/GlobalSlice";
 
 const ProductDetailCard = ({ data }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const addToCart = (id) => {
     axios({
@@ -31,17 +32,11 @@ const ProductDetailCard = ({ data }) => {
 
   return (
     <section className="text-gray-600 body-font overflow-hidden ">
-      <Link
-        to="/"
-        className="left-[240px] top-[120px] absolute w-fit font-semibold text-primary"
-      >
-        &lt; Back{" "}
-      </Link>
       <div className="container px-5 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
             alt="ecommerce"
-            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+            className="lg:w-1/2 w-full lg:h-96 h-64 mt-8 object-cover object-center rounded"
             src="https://dummyimage.com/400x400"
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -51,20 +46,30 @@ const ProductDetailCard = ({ data }) => {
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
               {data?.medicin.medicin_name}
             </h1>
-            <div className="grid grid-cols-2 py-4">
+            <div className="grid grid-cols-2 py-4 gap-4">
               <div>
                 Category :
-                <span className="italic text-black/60 ml-1">
+                <span className="italic text-sm text-black/60 ml-1">
                   {data?.medicin.category.category_name}
                 </span>
               </div>
+
               <div>
                 For Disease :
-                <span className="italic text-black/60 ml-1">
+                <span className="italic text-sm text-black/60 ml-1">
                   {data?.medicin.disease.disease_name}
                 </span>
               </div>
+              {data?.medicin.expire_date && (
+                <div className="whitespace-nowrap">
+                  Expire Date :
+                  <span className="italic text-sm  text-black/60 ml-1">
+                    {formatDate(data?.medicin.expire_date)}
+                  </span>
+                </div>
+              )}
             </div>
+            <p className="text-black/50 mt-7 mb-3">Product Details: </p>
             <p className="leading-relaxed">
               {data?.medicin.medicin_description}
             </p>
@@ -76,13 +81,19 @@ const ProductDetailCard = ({ data }) => {
             </div>
 
             <div className="mt-4 py-4">
-              <button className="text-white bg-success border-0 p-2 w-full focus:outline-none hover:bg-success rounded">
+              <button
+                className="text-white bg-success border-0 p-2 w-full focus:outline-none hover:bg-success rounded"
+                onClick={() => {
+                  addToCart(data.id);
+                  navigate("/cart");
+                }}
+              >
                 Buy Now
               </button>
               <br />
               <button
                 className=" my-2 text-success border-success border-2 p-2 w-full  rounded"
-                onClick={() => addToCart(data.medicin_id)}
+                onClick={() => addToCart(data.id)}
               >
                 Add to Cart
               </button>

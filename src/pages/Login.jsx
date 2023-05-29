@@ -115,6 +115,16 @@ const LoginForm = () => {
         >
           {isLoading ? <Loader /> : "Login"}
         </button>
+        <button
+          type="button"
+          className="w-full font-semibold hover:underline text-black/50 hover:text-black px-4 py-2 rounded"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/");
+          }}
+        >
+          Continue as Guest
+        </button>
       </form>
     </div>
   );

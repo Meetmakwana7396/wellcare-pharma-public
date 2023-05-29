@@ -23,8 +23,21 @@ export const uploadImage = (img) => {
 };
 
 export const toIndianCurrency = (price) => {
-  const formattedPrice = price
-    .replace(/[^0-9.]/g, "")
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return `₹${formattedPrice}`;
+  const formattedPrice = parseFloat(price.replace(/[^0-9.]/g, "")).toFixed(2);
+  const formattedPriceWithCommas = formattedPrice.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ","
+  );
+  return `₹${formattedPriceWithCommas}`;
+};
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+    date
+  );
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year} - ${month.toLowerCase()} - ${day}`;
 };

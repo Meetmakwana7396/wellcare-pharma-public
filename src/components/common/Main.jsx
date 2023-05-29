@@ -8,7 +8,7 @@ const Main = ({ children }) => {
   return (
     <React.Fragment>
       <Navbar />
-      <div className="bg-[#f2f2f2] h-screen">
+      <div className="bg-[#f2f2f2] h-screen overflow-auto">
         <div className="max-w-7xl mx-auto py-10">{children}</div>
       </div>
     </React.Fragment>
