@@ -11,13 +11,9 @@ const userSlice = createSlice({
   reducers: {
     addUser(state, action) {
       state.user = action.payload;
-      localStorage.setItem("user_token", response.data.token); //puses data into array(initialState: [])
-    },
-    removeUser(state, action) {
-      state.splice(action.payload, 1); //Removes Single Element From Array
     },
   },
 });
 
 export default userSlice.reducer;
-export const { addUser, removeAllUser, removeUser } = userSlice.actions;
+export const { addUser } = userSlice.actions;

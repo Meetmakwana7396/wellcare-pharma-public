@@ -84,8 +84,12 @@ const ProductDetailCard = ({ data }) => {
               <button
                 className="text-white bg-success border-0 p-2 w-full focus:outline-none hover:bg-success rounded"
                 onClick={() => {
-                  addToCart(data.id);
-                  navigate("/cart");
+                  if (localStorage.getItem("user_token")) {
+                    addToCart(data.id);
+                    navigate("/cart");
+                  } else {
+                    toast.error("Please Login First");
+                  }
                 }}
               >
                 Buy Now

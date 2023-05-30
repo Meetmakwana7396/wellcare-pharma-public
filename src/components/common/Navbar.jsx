@@ -1,26 +1,51 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BiCartAlt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { URL } from "../../../baseurl";
 import { getCartList } from "../../store/slices/GlobalSlice";
+import { addUser } from "../../store/slices/UserSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const { cart_count } = useSelector((state) => state.global);
+  const { user } = useSelector((state) => state.users);
+
   const dispatch = useDispatch();
 
   const handleMenuVisibility = () => {
     setShowMenu(!showMenu);
   };
+
+  const getProfileDetails = () => {
+    axios({
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("user_token")}`,
+      },
+      url: `${URL}customers/get-profile`,
+      method: "get",
+    })
+      .then((response) => {
+        console.log(response.data, "profile");
+        dispatch(addUser(response.data));
+      })
+      .catch((error) => {
+        console.log(error.response, "profile error");
+      });
+  };
   useEffect(() => {
     if (localStorage.getItem("user_token")) {
+      if (!user) {
+        getProfileDetails();
+      }
       dispatch(getCartList());
     }
     document.addEventListener("click", (e) => {
       e.target.id !== "avatarButton" ? setShowMenu(false) : "";
     });
-  }, []);
+  }, [user, localStorage.getItem("user_token")]);
 
   return (
     <div
@@ -39,7 +64,7 @@ const Navbar = () => {
           >
             <div className="relative">
               <BiCartAlt size={27} className="text-black" />
-              {cart_count && (
+              {cart_count > 0 && (
                 <span className="absolute top-[3px] right-1 inline-flex items-center justify-center px-[5px] py-[3px] text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-danger/90 rounded-full">
                   {cart_count}
                 </span>
