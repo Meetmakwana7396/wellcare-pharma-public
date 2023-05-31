@@ -8,11 +8,13 @@ const Main = ({ children }) => {
 
   return (
     <React.Fragment>
-      <Navbar />
-      <div className="bg-[#f2f2f2] overflow-auto pb-20">
-        <div className="max-w-7xl mx-auto py-10">{children}</div>
+      <div className="h-screen overflow-auto">
+        <Navbar />
+        <div className="bg-[#f2f2f2] overflow-auto pb-20">
+          <div className="max-w-7xl mx-auto py-10">{children}</div>
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </React.Fragment>
   );
 };

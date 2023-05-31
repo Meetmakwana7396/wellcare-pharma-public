@@ -81,7 +81,7 @@ const Footer = () => {
                   className="w-full bg-secondary/20 bg-opacity-50 rounded border border-gray-300 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 />
               </div>
-              <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-black bg-white/80 border-0 py-2 px-6 focus:outline-none hover:bg-white/60 rounded">
+              <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white/60 bg-[#052313] border-0 py-2 px-6 rounded">
                 Subscribe
               </button>
             </div>

@@ -10,7 +10,10 @@ import { Provider } from "react-redux";
 import NotFound from "./pages/NotFound";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import ThankyouPage from "./pages/ThankyouPage";
 import Signup from "./pages/Signup";
+import MyOrders from "./pages/MyOrders";
+import OrderDetails from "./pages/OrderDetails";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +35,18 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />,
+  },
+  {
+    path: "/myorders",
+    element: <MyOrders />,
+  },
+  {
+    path: "/myorders/order-details/:id",
+    element: <OrderDetails />,
+  },
+  {
+    path: "/thank-you",
+    element: <ThankyouPage />,
   },
   {
     path: "*",

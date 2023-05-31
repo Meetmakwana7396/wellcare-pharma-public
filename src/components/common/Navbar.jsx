@@ -28,8 +28,8 @@ const Navbar = () => {
       method: "get",
     })
       .then((response) => {
-        console.log(response.data, "profile");
-        dispatch(addUser(response.data));
+        console.log(response.data.data, "profile");
+        dispatch(addUser(response.data.data));
       })
       .catch((error) => {
         console.log(error.response, "profile error");
@@ -94,6 +94,11 @@ const Navbar = () => {
             <li>
               <Link to="/profile" className="block px-4 py-2 hover:bg-black/10">
                 Profile
+              </Link>
+            </li>
+            <li>
+              <Link to="/myorders" className="block px-4 py-2 hover:bg-black/10">
+                My Orders
               </Link>
             </li>
           </ul>
