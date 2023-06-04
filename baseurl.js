@@ -41,3 +41,15 @@ export const formatDate = (dateString) => {
 
   return `${year} - ${month.toLowerCase()} - ${day}`;
 };
+
+export const statusMap = [
+  { key: "1", value: "pending" },
+  { key: "2", value: "packed" },
+  { key: "3", value: "shipped" },
+  { key: "4", value: "delivered" },
+];
+
+export function getOrderStatus(key) {
+  const statusObject = statusMap.find((status) => status.key == key);
+  return statusObject ? statusObject.value : null;
+}

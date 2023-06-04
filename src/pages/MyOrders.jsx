@@ -6,7 +6,7 @@ import OrderProductCard from "../components/product/OrderProductCard";
 
 const MyOrders = () => {
   const [orderList, setOrderList] = useState([]);
-  
+
   const getOrdersList = () => {
     axios({
       headers: {
@@ -23,13 +23,14 @@ const MyOrders = () => {
         console.log(error.response);
       });
   };
+
   useEffect(() => {
     getOrdersList();
   }, []);
 
   return (
     <Main>
-      <div className=" p-4 bg-secondary/10 rounded h-[70vh]">
+      <div className=" p-4 bg-secondary/10 rounded h-[70vh] overflow-auto">
         <h2 className=" mb-5 text-xl font-semibold">My Orders</h2>
         {orderList?.length > 0 ? (
           <ul>

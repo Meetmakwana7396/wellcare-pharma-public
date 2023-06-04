@@ -4,7 +4,7 @@ import { toIndianCurrency } from "../../../baseurl";
 
 const ProductCard = ({ data }) => {
   return (
-    <div className="max-w-xs rounded overflow-hidden shadow-lg">
+    <div className="max-w-xs rounded overflow-hidden shadow-md">
       <Link to={`/product-detail/${data.id}`}>
         {/* <img className="w-full" src={imageUrl} alt={name} /> */}
         <div className="h-36 bg-black/10">

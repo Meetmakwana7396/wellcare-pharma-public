@@ -10,7 +10,6 @@ import { URL } from "../../baseurl";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addProducts } from "../store/slices/GlobalSlice";
-import { Link } from "react-router-dom";
 
 const CustomButton = ({ onClick, children }) => (
   <button
@@ -26,6 +25,7 @@ const CustomButton = ({ onClick, children }) => (
 const Index = () => {
   const dispatch = useDispatch();
   const [productList, setProductsList] = useState([]);
+  const [companyArray, setCompanyArray] = useState([]);
 
   const getProductsList = () => {
     axios({
@@ -58,6 +58,17 @@ const Index = () => {
   useEffect(() => {
     getProductsList();
   }, []);
+
+  useEffect(() => {
+    let companies = [
+      ...new Set(
+        productList.map(
+          (product) => product.medicin.pharma_company.company_name
+        )
+      ),
+    ];
+    setCompanyArray(companies);
+  }, [productList]);
 
   return (
     <Main>
@@ -111,12 +122,26 @@ const Index = () => {
             <CustomButton onClick={handleNext}>&gt;</CustomButton>
           </div>
         </Swiper>
-        <div className="grid grid-cols-4 gap-8 py-8">
-          {productList.map((product) => (
-            <div key={product.id}>
-              <ProductCard data={product} />
+        <div className="py-8 my-4">
+          <h2 className="text-2xl font-semibold mb-8">All Medicins</h2>
+          <div className="grid grid-cols-4 gap-8 ">
+            {productList.map((product) => (
+              <div key={product.id}>
+                <ProductCard data={product} />
+              </div>
+            ))}
+          </div>
+
+          <section className="mt-16 p-3">
+            <h2 className="mb-5 text-xl font-semibold">Shop By Company</h2>
+            <div className="h-auto flex gap-4">
+              {companyArray.map((company) => (
+                <div className="py-4 cursor-pointer px-20 border border-secondary/30 shadow-md rounded">
+                  {company}
+                </div>
+              ))}
             </div>
-          ))}
+          </section>
         </div>
       </div>
     </Main>

@@ -26,7 +26,7 @@ const OrderProductCard = ({ data }) => {
         </span>
         <Link
           className="text-primary underline"
-          to={`order-details/${data.id}`}
+          to={`/myorders/order-details/${data.id}`}
         >
           Show Details
         </Link>

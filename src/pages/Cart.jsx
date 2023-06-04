@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { toIndianCurrency } from "../../baseurl";
+import { useNavigate } from "react-router-dom";
+import { toIndianCurrency, URL } from "../../baseurl";
 import CartProductCard from "../components/common/CartProductCard";
 import Main from "../components/common/Main";
 
@@ -18,6 +19,7 @@ const Cart = () => {
   const { cart } = useSelector((state) => state.global);
   const { cart_count } = useSelector((state) => state.global);
   const { user } = useSelector((state) => state.users);
+  const navigate = useNavigate();
   const [medicinArray, setMedicinArray] = useState([]);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [errors, setErrors] = useState({});
@@ -68,7 +70,7 @@ const Cart = () => {
           Authorization: `Bearer ${localStorage.getItem("user_token")}`,
         },
         method: "post",
-        url: "customers/order-medicin",
+        url: `${URL}customers/order-medicin`,
         data: {
           medicin_array: medicinArray,
           address: formData.address,
@@ -81,7 +83,9 @@ const Cart = () => {
       })
         .then((response) => {
           setFormData(defaultParams);
-          console.log(response.data);
+          if (response.data.success) {
+            navigate("/thank-you");
+          }
         })
         .catch((error) => {
           console.log(error.response);
