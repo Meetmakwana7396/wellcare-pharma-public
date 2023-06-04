@@ -26,6 +26,7 @@ const Index = () => {
   const dispatch = useDispatch();
   const [productList, setProductsList] = useState([]);
   const [companyArray, setCompanyArray] = useState([]);
+  const [search, setSearch] = useState("");
 
   const getProductsList = () => {
     axios({
@@ -33,7 +34,7 @@ const Index = () => {
       url: `${URL}medicins/get-medicin-list`,
     })
       .then((response) => {
-        setProductsList(response.data.data);
+          (response.data.data);
         dispatch(addProducts(response.data.data));
       })
       .catch((error) => {
@@ -58,6 +59,12 @@ const Index = () => {
   useEffect(() => {
     getProductsList();
   }, []);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {}, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
 
   useEffect(() => {
     let companies = [
@@ -124,6 +131,17 @@ const Index = () => {
         </Swiper>
         <div className="py-8 my-4">
           <h2 className="text-2xl font-semibold mb-8">All Medicins</h2>
+
+          <div className="">
+            <input
+              type="text"
+              className="form-control mb-5"
+              placeholder="Search..."
+              name="search"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+            />
+          </div>
           <div className="grid grid-cols-4 gap-8 ">
             {productList.map((product) => (
               <div key={product.id}>

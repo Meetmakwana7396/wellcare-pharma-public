@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { URL } from "../../baseurl";
+import { URL as url } from "../../baseurl";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../components/common/Loader";
 import { toast } from "react-hot-toast";
+import { BiPlusCircle } from "react-icons/bi";
 
 const defaultParams = {
-  username: "",
+  user_name: "",
   email: "",
   password: "",
   contact_no: "",
   city: "",
   state: "",
   pincode: "",
-  //   picture: "",
+  picture: null,
 };
 
 const Signup = () => {
@@ -21,6 +22,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState(defaultParams);
+  const [picture, setPicture] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +30,13 @@ const Signup = () => {
       ...prevFormData,
       [name]: value,
     }));
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+
+    setFormData({ ...formData, picture: file });
+    setPicture(URL.createObjectURL(file));
   };
 
   function validateForm(formData) {
@@ -55,18 +64,22 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm(formData)) {
+      const data = new FormData();
+      for (const key in formData) {
+        data.append(key, formData[key]);
+      }
       setIsLoading(true);
       axios({
         method: "post",
-        url: `${URL}api/user-register`,
-        data: {
-          ...formData,
-        },
+        url: `${url}api/user-register`,
+        data: data,
       })
         .then((response) => {
           setFormData(defaultParams);
-          localStorage.setItem("user_token", response.data.token);
-          navigate("/");
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
         })
         .catch((error) => {
           setIsLoading(false);
@@ -86,21 +99,21 @@ const Signup = () => {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="">
-            <label htmlFor="username" className="block mb-1">
+            <label htmlFor="user_name" className="block mb-1">
               Username:
             </label>
             <input
               type="text"
-              id="username"
+              id="user_name"
               placeholder="Username..."
-              name="username"
-              value={formData.username}
+              name="user_name"
+              value={formData.user_name}
               onChange={handleInputChange}
               className="border border-gray-300 rounded px-2 py-1 w-full form-control"
             />
-            {errors?.username ? (
+            {errors?.user_name ? (
               <span className="text-danger text-sm font-semibold">
-                {errors.username}
+                {errors.user_name}
               </span>
             ) : (
               ""
@@ -233,7 +246,7 @@ const Signup = () => {
             )}
           </div>
         </div>
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <label htmlFor="picture" className="block mb-1">
             Picture:
           </label>
@@ -253,6 +266,33 @@ const Signup = () => {
           ) : (
             ""
           )}
+        </div> */}
+        <div className="relative z-0 w-full my-4">
+          <label htmlFor="">Profile Picture</label>
+          <div className="flex gap-4 items-center">
+            <label
+              htmlFor="store_image"
+              className="h-20 w-20 mt-1 rounded border-black/10 border flex justify-center items-center cursor-pointer shadow-md"
+            >
+              <BiPlusCircle className="text-black/40" />
+            </label>
+            <input
+              type="file"
+              name="picture"
+              id="store_image"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+
+            {picture && (
+              <img
+                src={picture}
+                alt=""
+                className="h-20 w-20 object-cover mt-1 rounded border-black/10 border flex justify-center items-center cursor-pointer shadow-md"
+                srcset=""
+              />
+            )}
+          </div>
         </div>
         <button
           type="submit"

@@ -14,7 +14,6 @@ import ThankyouPage from "./pages/ThankyouPage";
 import Signup from "./pages/Signup";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
-import Test from "./pages/test";
 
 const router = createBrowserRouter([
   {
@@ -41,10 +40,7 @@ const router = createBrowserRouter([
     path: "/myorders",
     element: <MyOrders />,
   },
-  {
-    path: "/test",
-    element: <Test />,
-  },
+
   {
     path: "/myorders/order-details/:id",
     element: <OrderDetails />,
