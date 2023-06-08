@@ -20,6 +20,7 @@ const Cart = () => {
   const { cart_count } = useSelector((state) => state.global);
   const { user } = useSelector((state) => state.users);
   const navigate = useNavigate();
+  
   const [medicinArray, setMedicinArray] = useState([]);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [errors, setErrors] = useState({});

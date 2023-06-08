@@ -34,7 +34,7 @@ const Index = () => {
       url: `${URL}medicins/get-medicin-list`,
     })
       .then((response) => {
-          (response.data.data);
+        setProductsList(response.data.data);
         dispatch(addProducts(response.data.data));
       })
       .catch((error) => {
@@ -142,24 +142,13 @@ const Index = () => {
               value={search}
             />
           </div>
-          <div className="grid grid-cols-4 gap-8 ">
+          <div className="grid grid-cols-3 gap-10 ">
             {productList.map((product) => (
               <div key={product.id}>
                 <ProductCard data={product} />
               </div>
             ))}
           </div>
-
-          <section className="mt-16 p-3">
-            <h2 className="mb-5 text-xl font-semibold">Shop By Company</h2>
-            <div className="h-auto flex gap-4">
-              {companyArray.map((company) => (
-                <div className="py-4 cursor-pointer px-20 border border-secondary/30 shadow-md rounded">
-                  {company}
-                </div>
-              ))}
-            </div>
-          </section>
         </div>
       </div>
     </Main>

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const URL = "http://localhost:3001/";
+export const IMG_URL = "http://localhost:3001/pictures/";
 export const auth_code = "wellcarepharma123";
 
 export const uploadImage = (img) => {

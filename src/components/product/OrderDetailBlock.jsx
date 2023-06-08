@@ -1,13 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { formatDate, getOrderStatus, toIndianCurrency } from "../../../baseurl";
+import {
+  formatDate,
+  getOrderStatus,
+  IMG_URL,
+  toIndianCurrency,
+} from "../../../baseurl";
 
 const OrderDetailBlock = ({ data }) => {
   return (
     <div className="p-4 border-2 rounded bg-white border-secondary/50 h-80">
       <div className="grid grid-cols-4 gap-8  h-full">
         <div className="border border-secondary/30">
-          <img src="sas" alt="no image" className="w-full h-full " />
+          <img
+            src={IMG_URL + data?.medical_shop_order?.medicin?.medicin_img_url}
+            alt="no image"
+            className="w-full h-full object-cover rounded"
+          />
         </div>
         <div className="">
           <h3 className="text-lg font-semibold mb-4 underline text-secondary">

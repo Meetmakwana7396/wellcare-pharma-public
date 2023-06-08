@@ -3,7 +3,13 @@ import React from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth_code, formatDate, toIndianCurrency, URL } from "../../../baseurl";
+import {
+  auth_code,
+  formatDate,
+  IMG_URL,
+  toIndianCurrency,
+  URL,
+} from "../../../baseurl";
 import { getCartList } from "../../store/slices/GlobalSlice";
 
 const ProductDetailCard = ({ data }) => {
@@ -37,7 +43,7 @@ const ProductDetailCard = ({ data }) => {
           <img
             alt="ecommerce"
             className="lg:w-1/2 w-full lg:h-96 h-64 mt-8 object-cover object-center rounded"
-            src="https://dummyimage.com/400x400"
+            src={IMG_URL + data?.medicin?.medicin_img_url}
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h2 className="text-sm title-font text-gray-500 tracking-widest">

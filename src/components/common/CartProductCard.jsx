@@ -3,7 +3,7 @@ import React from "react";
 import { toast } from "react-hot-toast";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { toIndianCurrency, URL } from "../../../baseurl";
+import { IMG_URL, toIndianCurrency, URL } from "../../../baseurl";
 import { getCartList } from "../../store/slices/GlobalSlice";
 
 const CartProductCard = ({ data }) => {
@@ -32,7 +32,7 @@ const CartProductCard = ({ data }) => {
     <li className="p-4 border-b-4 border-black/10  flex items-center justify-between">
       <div className="flex items-center">
         <img
-          src={`./../../../../Well_Care_Pharmacy/public/pictures/${data.medical_shop_order.medicin.medicin_img_url}`}
+          src={`${IMG_URL + data.medical_shop_order.medicin.medicin_img_url}`}
           //   alt={name}
           className="w-12 h-12 rounded border mr-4"
         />
