@@ -14,6 +14,7 @@ import ThankyouPage from "./pages/ThankyouPage";
 import Signup from "./pages/Signup";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "/myorders",

@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BiCartAlt } from "react-icons/bi";
+import { BiCartAlt, BiUserCircle } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { URL } from "../../../baseurl";
+import { IMG_URL, URL } from "../../../baseurl";
 import { getCartList } from "../../store/slices/GlobalSlice";
-import { addUser } from "../../store/slices/UserSlice";
+import { addUser, getProfileDetails } from "../../store/slices/UserSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -19,26 +19,27 @@ const Navbar = () => {
     setShowMenu(!showMenu);
   };
 
-  const getProfileDetails = () => {
-    axios({
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("user_token")}`,
-      },
-      url: `${URL}customers/get-profile`,
-      method: "get",
-    })
-      .then((response) => {
-        console.log(response.data.data, "profile");
-        dispatch(addUser(response.data.data));
-      })
-      .catch((error) => {
-        console.log(error.response, "profile error");
-      });
-  };
+  // const getProfileDetails = () => {
+  //   axios({
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("user_token")}`,
+  //     },
+  //     url: `${URL}customers/get-profile`,
+  //     method: "get",
+  //   })
+  //     .then((response) => {
+  //       // console.log(response.data.data, "profile");
+  //       dispatch(addUser(response.data.data));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response, "profile error");
+  //     });
+  // };
+
   useEffect(() => {
     if (localStorage.getItem("user_token")) {
       if (!user) {
-        getProfileDetails();
+        dispatch(getProfileDetails());
       }
       dispatch(getCartList());
     }
@@ -73,16 +74,29 @@ const Navbar = () => {
           </Link>
         )}
 
-        <img
+        {/* <img
           id="avatarButton"
           type="button"
           onClick={handleMenuVisibility}
           datadropdowntoggle="userDropdown"
           datadropdownplacement="bottom-start"
-          className="w-10 h-10 rounded-full cursor-pointer"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXFBOfk-8mYVPpg23ixdQ8WfID6Jy23Kw_aTy-NcZmhA&s"
+          className="w-10 h-10 rounded-full object-cover cursor-pointer"
+          src={
+            user
+              ? IMG_URL + user.profile_pic
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXFBOfk-8mYVPpg23ixdQ8WfID6Jy23Kw_aTy-NcZmhA&s"
+          }
           alt="User dropdown"
+        /> */}
+        <BiUserCircle
+          id="avatarButton"
+          size={27}
+          onClick={handleMenuVisibility}
+          className="text-black cursor-pointer"
+          datadropdowntoggle="userDropdown"
+          datadropdownplacement="bottom-start"
         />
+
         {/* <!-- Dropdown menu --> */}
         <div
           id="userDropdown"
@@ -97,7 +111,10 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/myorders" className="block px-4 py-2 hover:bg-black/10">
+              <Link
+                to="/myorders"
+                className="block px-4 py-2 hover:bg-black/10"
+              >
                 My Orders
               </Link>
             </li>
